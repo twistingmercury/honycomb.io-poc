@@ -1,0 +1,12 @@
+*.md
+LICENSE
+makefile
+dockerfile
+docker-compose.yaml
+.gitignore
+.vs/**/*
+.vs
+.idea/**/*
+.idea
+facade/**/*
+facade

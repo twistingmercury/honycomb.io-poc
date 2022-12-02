@@ -1,0 +1,20 @@
+﻿{
+  "profiles": {
+    "otelclient": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": false,
+      "applicationUrl": "http://localhost:3000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "local",
+        "OTEL_URI": "http://localhost:4317",
+        "DB_CONN": "mongodb://admin:pass@127.0.0.1:27017/",
+        "DB_NAME": "widgets",
+        "WIDGET_QUEUE_CONNECTION": "Endpoint=sb://twistingmercury.servicebus.windows.net/;SharedAccessKeyName=new_widgets_policy;SharedAccessKey=j4lN25NuyCQm9ZCBFDUk+xDzPirDlVxin59vQ4HW8dw=",
+        "WIDGET_ENTITY_PATH": "new_widgets",
+        "SERVICE_NAME": "tm.poc.api",
+        "SERVICE_VERSION": "0.0.1"
+      }
+    }
+  }
+}

@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <RootNamespace>tm.poc.api</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.11.1"/>
+        <PackageReference Include="MongoDB.Driver" Version="2.18.0"/>
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol.Logs" Version="1.4.0-beta.3"/>
+        <PackageReference Include="RabbitMQ.Client" Version="6.4.0"/>
+        <PackageReference Include="OpenTelemetry.Exporter.Console" Version="1.4.0-beta.3"/>
+        <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.4.0-beta.3"/>
+        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.0.0-rc9.9"/>
+        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.0.0-rc9.9"/>
+        <PackageReference Include="OpenTelemetry.Instrumentation.Http" Version="1.0.0-rc9.9"/>
+        <PackageReference Include="System.Memory" Version="4.5.5"/>
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\decorators\decorators.csproj"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Remove="Abstractions\ISubscriber.cs"/>
+        <Compile Remove="Widgets\Messaging\WidgetPublisher.cs"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Messaging\Azure\EventHubs"/>
+    </ItemGroup>
+
+</Project>
