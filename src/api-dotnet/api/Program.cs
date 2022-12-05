@@ -1,6 +1,5 @@
 using System.Configuration;
 using OpenTelemetry.Resources;
-using TM.Decorators.Logging;
 using TM.Decorators.Tracing;
 using TM.PoC.API.Abstractions;
 using TM.PoC.API.Startup;
@@ -19,7 +18,6 @@ var resourceBuilder = ResourceBuilder.CreateDefault()
     .AddService(serviceName: serviceName, serviceVersion: serviceVersion);
 
 builder.Services.AddOtelTracing(builder.Configuration, resourceBuilder);
-builder.Services.AddOtelLogging(builder.Configuration, resourceBuilder);
 builder.Services.AddWidgetRepository();
 builder.Services.AddAzureServiceBus();
 builder.Services.AddEndpoints(typeof(WidgetEndpoints));

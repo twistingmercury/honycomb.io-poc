@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using OpenTelemetry.Trace;
 using TM.Decorators.Tracing;
 using TM.PoC.API.Abstractions;
 using TM.PoC.API.Widgets.Types;
@@ -16,37 +17,46 @@ public class WidgetEndpoints : IEndpointDefinition
     }
 
     [Trace]
-    internal async Task<IResult> GetById(ILogger<WidgetEndpoints> logger, IDataRepository<Widget> repo, string bsonId)
+    internal async Task<IResult> GetById(IDataRepository<Widget> repo, string bsonId)
     {
         var results = await repo.GetByIdAsync(bsonId);
-        logger.LogInformation("WidgetEndpoints.GetById completed successfully");
         return Results.Ok(results);
     }
 
     [Trace]
-    internal async Task<IResult> Get(ILogger<WidgetEndpoints> logger, IDataRepository<Widget> repo)
+    internal async Task<IResult> Get(IDataRepository<Widget> repo)
     {
-        if (logger is null) throw new ArgumentNullException(nameof(logger));
+        Tracer.CurrentSpan.AddEventInfo(
+            name: "my event",
+            data: new SpanAttribute[]
+            {
+                new(key: "data point 1", values: new object[] { "point 1", 42 }),
+                new(key: "data point 2", values: new object[] { true, false }),
+                new(key: "data point 3", values: 1.0f / 137.0f)
+            });
         var results = await repo.GetAsync();
-        logger.LogInformation("WidgetEndpoints.Get completed successfully");
+        Tracer.CurrentSpan.AddEventInfo(
+            name: "results info",
+            data: new SpanAttribute[]
+            {
+                new(key: "results count", values: results.Count)
+            });
         return Results.Ok(results);
     }
 
     [Trace]
-    internal async Task<IResult> Create(ILogger<WidgetEndpoints> logger, IDataRepository<Widget> repo,
+    internal async Task<IResult> Create(IDataRepository<Widget> repo,
         IPublisher<Widget> publisher, [FromBody] Widget w)
     {
         await publisher.Publish(w);
-        logger.LogInformation("WidgetEndpoints.Create completed successfully");
         return Results.Accepted();
     }
 
     [Trace]
-    internal async Task<IResult> Delete(ILogger<WidgetEndpoints> logger, IDataRepository<Widget> repo,
+    internal async Task<IResult> Delete(IDataRepository<Widget> repo,
         [FromBody] Widget w)
     {
-        if (w.Id is not null) await repo.DeleteAsync(w.Id);
-        logger.LogInformation("WidgetEndpoints.Delete completed successfully");
+        if (w.Id != null) await repo.DeleteAsync(w.Id);
         return Results.NoContent();
     }
 }

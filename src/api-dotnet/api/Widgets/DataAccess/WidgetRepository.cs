@@ -1,3 +1,4 @@
+using System.Configuration;
 using MongoDB.Driver;
 using TM.Decorators.Tracing;
 using TM.PoC.API.Abstractions;
@@ -47,10 +48,10 @@ public static class WidgetRepositoryExtensions
     public static IServiceCollection AddWidgetRepository(this IServiceCollection services)
     {
         var dbConn = Environment.GetEnvironmentVariable("DB_CONN")
-                     ?? throw new Exception("missing 'DB_CONN'");
+                     ?? throw new ConfigurationErrorsException("missing 'DB_CONN'");
 
         var dbName = Environment.GetEnvironmentVariable("DB_NAME")
-                     ?? throw new Exception("missing 'DB_NAME'");
+                     ?? throw new ConfigurationErrorsException("missing 'DB_NAME'");
 
         return services.AddSingleton<IDataRepository<Widget>>(_ =>
             new WidgetRepository(dbConn, dbName, "widgets"));

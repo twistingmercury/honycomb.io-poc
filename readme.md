@@ -1,6 +1,6 @@
 # Honeycomb.io OpenTelemetry RnD
 
-A project to figure out how to use OpenTelemetry and Honeycomb.io
+A project to explore how to use OpenTelemetry with Honeycomb.io
 
 ## Goals (in no particular order)
 

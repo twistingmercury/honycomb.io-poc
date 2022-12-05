@@ -77,3 +77,20 @@ public sealed class TraceDecorator : BaseUniversalWrapperAspect
         }
     }
 }
+
+public static class TraceExtensions
+{
+    public static void AddEvent(this Tracer t, string name, IDictionary<string, string>? attributes = null)
+    {
+        SpanAttributes spanData = new();
+        if (attributes is not null)
+        {
+            foreach (var attrib in attributes)
+            {
+                spanData.Add(attrib.Key, attrib.Value);
+            }
+        }
+
+        Tracer.CurrentSpan.AddEvent(name: name, attributes: spanData);
+    }
+}
